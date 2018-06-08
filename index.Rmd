@@ -1,0 +1,26 @@
+---
+title: "Library Usage Over Time"
+author: "tdresser@chromium.org"
+date: "June 6, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+source("main.R")
+```
+
+Data from the HTTPArchive. Details [here](https://github.com/tdresser/js-library-usage/blob/master/README.md).
+
+```{r, fig.width=10, fig.height=10}
+myplotly <- function(plot, ...) {
+  xlab <- paste("&nbsp;<br>", plot$labels$x ,sep="")
+  ylab <- paste(plot$labels$y, "<br>&nbsp;", sep="")
+  return(ggplotly(plot + labs(x = xlab, y = ylab), ..., tooltip = "text")) %>% 
+    layout(margin=list(b=80, l=80, r=80), legend=list(x=1.05))
+}
+
+myplotly(plot)
+```
+
+
