@@ -23,14 +23,23 @@ top_n = deltas %>% arrange(desc(total_frequency)) %>% head(n=20)
 # Or just libraries which are generally of interest.
 interesting_sites <- inner_join(df, deltas) %>%
   filter((abs(delta_percent) > 40 & total_frequency > 3500) |
-         library %in% c("Polymer", "Google Maps", "React"))
+         library %in% c("Polymer", "Google Maps", "React", "jQuery"))
 
-interesting_sites %<>% mutate(text = sprintf("Date: %s<br>Library: %s<br>Page Count: %f", format(date, "%Y/%m/%d"), library, frequency))
+#order <- interesting_sites %>% filter(client == "desktop") %>% group_by(library) %>% summarize(v=last(frequency)) %>% arrange(desc(v))
+order <- interesting_sites %>% group_by(library) %>% summarize(v=last(frequency)) %>% arrange(desc(v))
 
-plot <- ggplot(interesting_sites, aes(x=date, y = frequency, color=library, text=text, group=1)) + 
+interesting_sites$library <- factor(interesting_sites$library, order$library)
+
+interesting_sites %<>% 
+  mutate(text = sprintf("Date: %s<br>Library: %s<br>Page Count: %f", format(date, "%Y/%m/%d"), library, frequency))
+
+plot <- ggplot(interesting_sites, aes(x=date, y = frequency, color=library, text=text, group=1)) +
+#plot <- ggplot(interesting_sites, aes(x=date, y = frequency, color=library)) + 
   geom_line(size=2) +
   scale_color_manual(values=colors) +
   scale_y_log10() +
   facet_wrap(~client, ncol=1) +
   ylab("Page count") +
   ggtitle("Library Usage")
+
+#ggsave("libraries_over_time.png", plot=plot, width=8, height=10, dpi=200)
