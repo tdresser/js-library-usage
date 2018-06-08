@@ -22,7 +22,7 @@ top_n = deltas %>% arrange(desc(total_frequency)) %>% head(n=20)
 # We care about libraries with highly variable popularity, which exceed a minimum popularity bar.
 # Or just libraries which are generally of interest.
 interesting_sites <- inner_join(df, deltas) %>%
-  filter((abs(delta_percent) > 40 & frequency > 150) |
+  filter((abs(delta_percent) > 40 & total_frequency > 3500) |
          library %in% c("Polymer", "Google Maps", "React"))
 
 interesting_sites %<>% mutate(text = sprintf("Date: %s<br>Library: %s<br>Page Count: %f", format(date, "%Y/%m/%d"), library, frequency))
