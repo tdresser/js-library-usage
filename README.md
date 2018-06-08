@@ -1,7 +1,9 @@
 # js-library-usage
 An analysis of http archive data, showing JS library usage over time.
 
-See graph [here](https://tdresser.github.io/js-library-usage/).
+See interactive graph [here](https://tdresser.github.io/js-library-usage/).
+
+![Graph](libraries_over_time.png)
 
 BigQuery, based on queries [here](https://discuss.httparchive.org/t/javascript-library-detection/955/9).
 Query can be found [here](https://bigquery.cloud.google.com/savedquery/820195827355:9e1b3b521a964fa4b7b3b944b7e48ddd).
